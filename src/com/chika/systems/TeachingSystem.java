@@ -1,10 +1,15 @@
-package com.chika;
+package com.chika.systems;
+
+import com.chika.courses.Course;
+import com.chika.enums.Roles;
+import com.chika.users.Teacher;
+import com.chika.users.User;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author Cheng Liu
@@ -23,17 +28,11 @@ public class TeachingSystem implements Serializable {
     }
 
     public void printCourseList() {
-        System.out.println("Id\tName\tRequirement\tTeachers");
-        StringJoiner s = new StringJoiner("\n");
-        courseList.forEach(course -> s.add(course.toTableString()));
-        System.out.println(s);
+        Course.printList(courseList, true);
     }
 
     public void printTeacherList() {
-        System.out.println("Id\tName\tTrainingState\tCourses");
-        StringJoiner s = new StringJoiner("\n");
-        users.stream().filter(user -> user.getRole() == Roles.TEACHER).forEach(user -> s.add(user.toString()));
-        System.out.println(s);
+        Teacher.printList(users.stream().filter(user -> user.getRole() == Roles.TEACHER).map(user -> (Teacher) user).collect(Collectors.toList()), true);
     }
 
     public void save() {

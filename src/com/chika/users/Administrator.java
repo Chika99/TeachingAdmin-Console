@@ -1,4 +1,10 @@
-package com.chika;
+package com.chika.users;
+
+import com.chika.courses.Course;
+import com.chika.enums.Roles;
+import com.chika.enums.TrainingStates;
+import com.chika.utils.Function;
+import com.chika.systems.TeachingSystem;
 
 /**
  * @author Cheng Liu
@@ -32,6 +38,7 @@ public class Administrator extends User {
 
         course.addTeacher(teacher);
         teacher.assign(course);
+        TeachingSystem.getInstance().save();
         System.out.println("success");
     }
 
@@ -43,6 +50,7 @@ public class Administrator extends User {
             return;
         }
         ((Teacher) user).setTrainingState(TrainingStates.TRAINING);
+        TeachingSystem.getInstance().save();
         System.out.println("success");
     }
 
@@ -57,6 +65,7 @@ public class Administrator extends User {
         if (teacher.getTrainingState() == TrainingStates.TRAINING) {
             teacher.setTrainingState(TrainingStates.TRAINED);
         }
+        TeachingSystem.getInstance().save();
         System.out.println("success");
     }
 }

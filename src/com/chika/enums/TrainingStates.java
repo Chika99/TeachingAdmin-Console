@@ -1,4 +1,4 @@
-package com.chika;
+package com.chika.enums;
 
 /**
  * @author chika

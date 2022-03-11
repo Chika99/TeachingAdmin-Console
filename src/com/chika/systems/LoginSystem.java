@@ -1,4 +1,7 @@
-package com.chika;
+package com.chika.systems;
+
+import com.chika.enums.Roles;
+import com.chika.users.User;
 
 /**
  * @author Cheng Liu

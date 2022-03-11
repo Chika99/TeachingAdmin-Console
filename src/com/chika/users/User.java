@@ -1,10 +1,18 @@
-package com.chika;
+package com.chika.users;
+
+import com.chika.enums.Roles;
+import com.chika.systems.CommandSystem;
+import com.chika.systems.LoginSystem;
+import com.chika.systems.TeachingSystem;
+import com.chika.utils.ConsoleFormatter;
+import com.chika.utils.FormatterConfig;
+import com.chika.utils.Function;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import static com.chika.Roles.*;
+import static com.chika.enums.Roles.*;
 
 /**
  * @author Cheng Liu
@@ -76,7 +84,22 @@ public class User implements Serializable {
 
     @Function(command = "userinfo", message = "show user info", permissions = {ALL})
     public void userinfo() {
-        System.out.println(this);
+        FormatterConfig config = new FormatterConfig.Builder()
+                .setTitle("Id")
+                .setPlaceholder(5)
+                .setContents(id)
+                .build();
+        FormatterConfig config1 = new FormatterConfig.Builder()
+                .setTitle("Username")
+                .setPlaceholder(20)
+                .setContents(username)
+                .build();
+        FormatterConfig config2 = new FormatterConfig.Builder()
+                .setTitle("Role")
+                .setPlaceholder(15)
+                .setContents(role.toString())
+                .build();
+        ConsoleFormatter.print(new FormatterConfig[]{config, config1, config2});
     }
 
     @Function(command = "help", message = "show help menu", permissions = {ALL})

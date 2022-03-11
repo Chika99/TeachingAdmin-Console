@@ -1,4 +1,9 @@
-package com.chika;
+package com.chika.users;
+
+import com.chika.courses.Course;
+import com.chika.utils.Function;
+import com.chika.enums.Roles;
+import com.chika.systems.TeachingSystem;
 
 /**
  * @author Cheng Liu

@@ -1,4 +1,10 @@
-package com.chika;
+package com.chika.systems;
+
+import com.chika.enums.Roles;
+import com.chika.users.User;
+import com.chika.utils.ConsoleFormatter;
+import com.chika.utils.FormatterConfig;
+import com.chika.utils.Function;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,17 +35,22 @@ public class CommandSystem {
         StringBuilder s = new StringBuilder();
         User currentUser = LoginSystem.getInstance().getCurrentUser();
         Method[] methods = currentUser.getClass().getMethods();
+        List<String> commands = new ArrayList<>();
+        List<String> messages = new ArrayList<>();
         Arrays.stream(methods).forEach(method -> {
             Function annotation = method.getAnnotation(Function.class);
             if (annotation != null) {
                 List<Roles> permissions = Arrays.stream(annotation.permissions()).collect(Collectors.toList());
                 if (permissions.contains(Roles.ALL) || permissions.contains(currentUser.getRole())) {
-                    s.append(String.format("%s:%s\n", annotation.command(), annotation.message()));
+                    commands.add(annotation.command());
+                    messages.add(annotation.message());
                 }
 
             }
         });
-        System.out.print(s);
+        FormatterConfig commandsConfig = new FormatterConfig.Builder().setTitle("Command").setPlaceholder(40).setContents(commands).build();
+        FormatterConfig messagesConfig = new FormatterConfig.Builder().setTitle("Description").setPlaceholder(20).setContents(messages).build();
+        ConsoleFormatter.print(new FormatterConfig[]{commandsConfig, messagesConfig});
     }
 
     public static void dispatch(String command) {
@@ -51,8 +62,6 @@ public class CommandSystem {
             Function annotation = method.getAnnotation(Function.class);
             if (annotation != null) {
                 List<Roles> permissions = Arrays.stream(annotation.permissions()).collect(Collectors.toList());
-                // System.out.println(permissions);
-                // System.out.println(permissions.contains(Roles.ALL) || permissions.contains(currentUser.getRole()));
                 if (permissions.contains(Roles.ALL) || permissions.contains(currentUser.getRole())) {
                     methodMap.put(method.getName(), method);
                 }
@@ -79,6 +88,5 @@ public class CommandSystem {
                 System.out.println("this command is " + annotation.command());
             }
         }
-
     }
 }

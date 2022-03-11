@@ -1,4 +1,6 @@
-package com.chika;
+package com.chika.utils;
+
+import com.chika.enums.Roles;
 
 import java.lang.annotation.*;
 
